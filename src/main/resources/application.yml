@@ -1,0 +1,41 @@
+server:
+  port: 9999
+#  undertow:
+#    threads:
+#      worker: 200
+#  shutdown: graceful
+#  compression:
+#    enabled: true
+spring:
+  cache:
+    cache-names: gateway-health
+    caffeine:
+      spec:
+        gateway-health: expireAfterWrite=30s,maximumSize=1000
+      # Configuração para o cache 'gateway-health'
+      # Expira 30 segundos após a última escrita.
+      # Tamanho máximo de 100 entradas.
+  application:
+    name: rinha-backend
+  main:
+    allow-bean-definition-overriding: true
+  web:
+    resources:
+      add-mappings: false
+  threads:
+    virtual:
+      enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web.reactive.function.client.ExchangeFunctions: INFO
+    reactor.netty.http.client.HttpClient: DEBUG
